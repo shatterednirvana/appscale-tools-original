@@ -1,6 +1,9 @@
 # Programmer: Chris Bunch
 
 
+require 'custom_exceptions'
+
+
 # Infrastructure provides an interface that defines what services an
 # infrastructure should provide. This abstracts away all the details of each
 # individual infrastructure so that callers can use these services without
@@ -17,5 +20,13 @@ class Infrastructure
     raise NotImplementedError
   end
 
+
+  def require_credentials(required, given)
+    required.each { |cred|
+      if given[cred].nil?
+        raise BadConfigurationException.new("#{cred} cannot be empty")
+      end
+    }
+  end
 
 end

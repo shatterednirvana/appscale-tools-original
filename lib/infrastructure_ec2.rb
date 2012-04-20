@@ -12,7 +12,13 @@ require 'infrastructure'
 class InfrastructureEC2 < Infrastructure
 
 
+  # The name of this service - here, it's Amazon's Elastic Compute Cloud (EC2).
   NAME = "EC2"
+
+
+  # A list of the credentials needed to access EC2 - just the access key and
+  # secret key for EC2.
+  REQUIRED_CREDENTIALS = ["EC2_ACCESS_KEY", "EC2_SECRET_KEY"]
 
 
   # The access key (equivalent to a username in Linux-speak) that is used
@@ -30,11 +36,10 @@ class InfrastructureEC2 < Infrastructure
   # TODO(cgb): what's the quickest way to validate that the credentials a
   # user gives us are actually valid?
   def initialize(credentials)
+    require_credentials(REQUIRED_CREDENTIALS, credentials)
 
     @ACCESS_KEY = credentials['EC2_ACCESS_KEY']
     @SECRET_KEY = credentials['EC2_SECRET_KEY']
-    
-
   end
 
 
